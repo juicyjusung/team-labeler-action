@@ -8,7 +8,7 @@ inputs:
   configuration-path:
     description: 'The path for the label configurations'
     required: false
-    default: '.github/teams.yml'
+    default: '.github/configs/teams.yml'
   teams-repo:
     description: 'Get the teams config from another repo'
     required: false
