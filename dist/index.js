@@ -179,6 +179,7 @@ function run() {
             const configPath = core.getInput('configuration-path', { required: true });
             const teamsRepo = core.getInput('teams-repo', { required: false });
             const teamsBranch = core.getInput('teams-branch', { required: false });
+            const affectedApps = core.getInput('affected-apps', { required: false });
             const prNumber = (0, github_1.getPrNumber)();
             if (!prNumber) {
                 core.info('Could not get pull request number from context, exiting');
@@ -191,9 +192,16 @@ function run() {
             }
             const client = (0, github_1.createClient)(token);
             const labelsConfiguration = yield (0, github_1.getLabelsConfiguration)(client, configPath, teamsRepo !== '' ? { repo: teamsRepo, ref: teamsBranch } : undefined);
-            const labels = (0, teams_1.getTeamLabel)(labelsConfiguration, `@${author}`);
+            const affectedAppsArray = affectedApps
+                .split(',')
+                .map(appName => appName.trim());
+            const labels = [
+                ...(0, teams_1.getTeamLabel)(labelsConfiguration, `@${author}`),
+                ...affectedAppsArray
+            ];
             if (labels.length > 0)
                 yield (0, github_1.addLabels)(client, prNumber, labels);
+            core.setOutput('team_labels', JSON.stringify(labels));
         }
         catch (error) {
             if (error instanceof Error) {
