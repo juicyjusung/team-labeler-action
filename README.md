@@ -40,7 +40,7 @@ jobs:
   team-labeler:
     runs-on: ubuntu-latest
     steps:
-    - uses: juicyjusung/team-labeler-action@v1.3
+    - uses: juicyjusung/team-labeler-action@v1.4
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
 ```

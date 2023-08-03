@@ -194,7 +194,8 @@ function run() {
             const labelsConfiguration = yield (0, github_1.getLabelsConfiguration)(client, configPath, teamsRepo !== '' ? { repo: teamsRepo, ref: teamsBranch } : undefined);
             const affectedAppsArray = affectedApps
                 .split(',')
-                .map(appName => appName.trim());
+                .map(appName => appName.trim())
+                .filter(appName => appName.length > 0);
             const labels = [
                 ...(0, teams_1.getTeamLabel)(labelsConfiguration, `@${author}`),
                 ...affectedAppsArray

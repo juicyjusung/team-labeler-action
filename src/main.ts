@@ -39,6 +39,7 @@ async function run() {
     const affectedAppsArray = affectedApps
       .split(',')
       .map(appName => appName.trim())
+      .filter(appName => appName.length > 0)
 
     const labels: string[] = [
       ...getTeamLabel(labelsConfiguration, `@${author}`),
