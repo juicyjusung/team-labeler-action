@@ -1,6 +1,6 @@
-name: 'Team labeler action'
+name: 'zep labeler action'
 description: "Add a team label based on the author's team"
-author: '@JulienKode'
+author: '@juicyjusung'
 inputs:
   repo-token:
     required: true
@@ -15,6 +15,10 @@ inputs:
     default: ''
   teams-branch:
     description: 'To get the teams config from another repo, specify the branch'
+    required: false
+    default: ''
+  affected-apps:
+    description: 'The affected apps'
     required: false
     default: ''
 outputs:

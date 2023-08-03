@@ -14,6 +14,7 @@ async function run() {
     const configPath = core.getInput('configuration-path', {required: true})
     const teamsRepo = core.getInput('teams-repo', {required: false})
     const teamsBranch = core.getInput('teams-branch', {required: false})
+    const affectedApps = core.getInput('affected-apps', {required: false})
 
     const prNumber = getPrNumber()
     if (!prNumber) {
@@ -35,9 +36,17 @@ async function run() {
         teamsRepo !== '' ? {repo: teamsRepo, ref: teamsBranch} : undefined
       )
 
-    const labels: string[] = getTeamLabel(labelsConfiguration, `@${author}`)
+    const affectedAppsArray = affectedApps
+      .split(',')
+      .map(appName => appName.trim())
+
+    const labels: string[] = [
+      ...getTeamLabel(labelsConfiguration, `@${author}`),
+      ...affectedAppsArray
+    ]
 
     if (labels.length > 0) await addLabels(client, prNumber, labels)
+
     core.setOutput('team_labels', JSON.stringify(labels))
   } catch (error) {
     if (error instanceof Error) {
